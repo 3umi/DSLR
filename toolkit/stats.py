@@ -49,12 +49,14 @@ def my_max(s: list[float]) -> float:
     return max
 
 def my_percentile(s: list[float], p: float) -> float:
+    if not 0 <= p <= 100:
+        raise ValueError(f"percentile must be between 0 and 100, got {p}")
+
     n = my_count(s)
     if n == 0:
         return NAN
-    if not 0 <= p <= 100:
-        raise ValueError(f"percentile must be between 0 and 100, got {p}")
-    
+
+    s = sorted(s)
     pos = (p / 100) * (n - 1)
     low = math.floor(pos)
     frac = pos - low
