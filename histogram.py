@@ -1,4 +1,5 @@
 import sys
+import math
 
 from pathlib import Path
 
@@ -9,6 +10,7 @@ from toolkit.load import load_csv, clean_data
 from toolkit.stats import my_min, my_max
 
 BINS = 15
+COLS = 5
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
@@ -20,7 +22,9 @@ if __name__ == "__main__":
     try:
         df = load_csv(path)
         courses_names = group_by_num(df).columns
-        fig, axes = plt.subplots(nrows=3, ncols=5, figsize=(17, 8))
+        rows = math.ceil(len(courses_names) / COLS)
+        fig, axes = plt.subplots(nrows=rows, ncols=COLS,
+                                 figsize=(17, 2.7 * rows))
         axes = axes.flatten()
         groups = group_by_house(df)
         for (i, course) in enumerate(courses_names):
@@ -47,5 +51,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print('\naborted.', file=sys.stderr)
         sys.exit(130)
-
-
