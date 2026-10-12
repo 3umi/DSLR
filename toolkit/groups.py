@@ -7,14 +7,17 @@ def group_by_num(df: pd.DataFrame) -> pd.DataFrame:
         raise ValueError('no numeric columns in dataset')
     return num
 
-def group_by_house(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+def house_labels(df: pd.DataFrame) -> list[str]:
     if 'Hogwarts House' not in df.columns:
         raise ValueError('no Hogwarts House column in dataset')
-    data = {}
     houses = sorted(df['Hogwarts House'].dropna().unique())
     if not houses:
         raise ValueError('no house labels in dataset')
-    for house in houses:
+    return houses
+
+def group_by_house(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    data = {}
+    for house in house_labels(df):
         data[house] = df[df['Hogwarts House'] == house]
     return data
 
