@@ -11,3 +11,8 @@ def load_csv(path: Path) -> pd.DataFrame:
 
 def clean_data(s: pd.Series) -> list[float]:
     return s.dropna().to_list()
+
+def clean_pair(df: pd.DataFrame, col1: str,
+               col2: str) -> tuple[list[float], list[float]]:
+    feat = df[[col1, col2]].dropna()
+    return feat[col1].to_list(), feat[col2].to_list()

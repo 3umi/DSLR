@@ -63,3 +63,24 @@ def my_percentile(s: list[float], p: float) -> float:
     if frac == 0:
         return s[low]
     return s[low] + (frac * (s[low + 1] - s[low]))
+
+def my_covariance(xs: list[float], ys: list[float]) -> float:
+    n = my_count(xs)
+    if n != my_count(ys):
+        raise ValueError('covariance needs two series of equal length')
+    if n < 2:
+        return NAN
+    mx = my_mean(xs)
+    my = my_mean(ys)
+    total = 0
+    for x, y in zip(xs, ys):
+        total += (x - mx) * (y - my)
+    return total / (n - 1)
+
+def my_correlation(xs: list[float], ys: list[float]) -> float:
+    cov = my_covariance(xs, ys)
+    std_x = my_std(xs)
+    std_y = my_std(ys)
+    if std_x == 0 or std_y == 0:
+        return NAN
+    return cov / (std_x * std_y)
