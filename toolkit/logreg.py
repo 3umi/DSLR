@@ -18,3 +18,9 @@ def train_one(X: np.ndarray, y: np.ndarray, lr: float, epochs: int) -> tuple[flo
         theta0 -= lr * grad0
         theta -= lr * grad
     return theta0, theta
+
+def predict(X: np.ndarray, houses: list[str],
+            weights: dict[str, tuple[float, np.ndarray]]) -> np.ndarray:
+    ordered = [weights[house] for house in houses]
+    H = np.column_stack([sigmoid(X @ t + t0) for t0, t in ordered])
+    return np.array(houses)[np.argmax(H, axis=1)]

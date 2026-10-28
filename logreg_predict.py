@@ -3,12 +3,11 @@ import sys
 from pathlib import Path
 
 import pandas as pd
-import numpy as np
 
 from toolkit.load import load_csv
 from toolkit.model_io import load_model
 from toolkit.preprocess import scale
-from toolkit.logreg import sigmoid
+from toolkit.logreg import predict
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -22,9 +21,7 @@ if __name__ == "__main__":
         df = load_csv(dataset_path)
         features, means, stds, houses, weights = load_model(weights_path)
         x_test = scale(df, features, means, stds)
-        ordered = [weights[house] for house in houses]
-        H = np.column_stack([sigmoid(x_test @ t + t0) for t0, t in ordered])
-        predicted = np.array(houses)[np.argmax(H, axis=1)]
+        predicted = predict(x_test, houses, weights)
         result = pd.DataFrame({
             'Index': df.index,
             'Hogwarts House': predicted,
