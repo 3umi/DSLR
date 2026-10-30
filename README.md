@@ -157,7 +157,7 @@ fix.
 
 ### More fields in `describe.py`
 
-Six extra rows after Max, also computed by hand:
+Four extra rows after Max, also computed by hand:
 
 | Field | Meaning |
 |---|---|
@@ -165,10 +165,6 @@ Six extra rows after Max, also computed by hand:
 | Var | Sample variance (Std²) |
 | Range | Max − Min |
 | IQR | Interquartile range, 75% − 25% |
-| Skew | Asymmetry of the distribution: 0 is symmetric, > 0 has a longer right tail |
-| Kurtosis | Excess kurtosis, how heavy the tails are: 0 is like a normal distribution |
-
-Skew and Kurtosis use the bias-corrected sample formulas, the same as pandas.
 
 ### Optimization algorithms
 

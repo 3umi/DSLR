@@ -1,3 +1,4 @@
+import shutil
 import sys
 
 from pathlib import Path
@@ -8,10 +9,10 @@ from toolkit.load import load_csv, clean_data
 from toolkit.groups import group_by_num
 from toolkit.stats import (my_count, my_mean, my_std, my_min, my_max,
                            my_percentile, my_missing, my_var, my_range,
-                           my_iqr, my_skew, my_kurtosis)
+                           my_iqr)
 
 STATS = ['Count', 'Mean', 'Std', 'Min', '25%', '50%', '75%', 'Max',
-         'Missing', 'Var', 'Range', 'IQR', 'Skew', 'Kurtosis']
+         'Missing', 'Var', 'Range', 'IQR']
 
 def describe(df: pd.DataFrame) -> pd.DataFrame:
     data = {}
@@ -23,7 +24,7 @@ def describe(df: pd.DataFrame) -> pd.DataFrame:
                      my_percentile(v, 25), my_percentile(v, 50),
                      my_percentile(v, 75), my_max(v),
                      my_missing(df[col].to_list()), my_var(v), my_range(v),
-                     my_iqr(v), my_skew(v), my_kurtosis(v)]
+                     my_iqr(v)]
     return pd.DataFrame(data, index=STATS)
 
 
@@ -36,7 +37,9 @@ if __name__ == "__main__":
 
     try:
         df = load_csv(path)
-        print(describe(df).to_string(float_format=lambda x: f'{x:.6f}'))
+        width = shutil.get_terminal_size().columns
+        print(describe(df).to_string(float_format=lambda x: f'{x:.6f}',
+                                     line_width=width))
 
     except (ValueError, OSError) as e:
         print(f'error: {e}', file=sys.stderr)

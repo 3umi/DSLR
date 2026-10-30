@@ -101,30 +101,3 @@ def my_range(s: list[float]) -> float:
 
 def my_iqr(s: list[float]) -> float:
     return my_percentile(s, 75) - my_percentile(s, 25)
-
-def central_moment(s: list[float], k: int) -> float:
-    mean = my_mean(s)
-    total = 0
-    for v in s:
-        total += (v - mean) ** k
-    return total / my_count(s)
-
-def my_skew(s: list[float]) -> float:
-    n = my_count(s)
-    if n < 3:
-        return NAN
-    m2 = central_moment(s, 2)
-    if m2 == 0:
-        return NAN
-    g1 = central_moment(s, 3) / m2 ** 1.5
-    return math.sqrt(n * (n - 1)) / (n - 2) * g1
-
-def my_kurtosis(s: list[float]) -> float:
-    n = my_count(s)
-    if n < 4:
-        return NAN
-    m2 = central_moment(s, 2)
-    if m2 == 0:
-        return NAN
-    g2 = central_moment(s, 4) / (m2 * m2) - 3
-    return (n - 1) / ((n - 2) * (n - 3)) * ((n + 1) * g2 + 6)
