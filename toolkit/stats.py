@@ -84,3 +84,20 @@ def my_correlation(xs: list[float], ys: list[float]) -> float:
     if std_x == 0 or std_y == 0:
         return NAN
     return cov / (std_x * std_y)
+
+def my_missing(s: list[float]) -> float:
+    missing = 0
+    for v in s:
+        if v != v:
+            missing += 1
+    return missing
+
+def my_var(s: list[float]) -> float:
+    std = my_std(s)
+    return std * std
+
+def my_range(s: list[float]) -> float:
+    return my_max(s) - my_min(s)
+
+def my_iqr(s: list[float]) -> float:
+    return my_percentile(s, 75) - my_percentile(s, 25)
